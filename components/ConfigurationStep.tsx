@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { CompressionTechnique, CompressionConfig } from '../types';
 import BitPrecisionSelector from './BitPrecisionSelector';
@@ -33,11 +34,13 @@ const ConfigurationStep: React.FC<ConfigurationStepProps> = ({ onVisualize, onBa
   
   return (
     <div className="flex flex-col h-full">
-      <div className="pt-24">
-        <h2 className="text-4xl font-bold mb-2 text-center">Configure <span className="text-sky-400">{selectedTechnique.name}</span></h2>
-        <p className="text-xl text-center text-slate-400 mb-8">Adjust the parameters for the compression algorithm.</p>
-        
-        <div className="space-y-8">
+      <div className="flex-shrink-0 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-2">Configure <span className="text-sky-400">{selectedTechnique.name}</span></h2>
+        <p className="text-lg sm:text-xl text-slate-400 mb-6 sm:mb-8">Adjust the parameters for the compression algorithm.</p>
+      </div>
+      
+      <div className="flex-grow min-h-0 overflow-y-auto pr-2 -mr-2">
+        <div className="space-y-8 max-w-lg mx-auto">
           {selectedTechnique.parameters.map((param) => {
             const currentValue = config[param.id] ?? param.defaultValue;
             let inputControl;
@@ -97,7 +100,7 @@ const ConfigurationStep: React.FC<ConfigurationStepProps> = ({ onVisualize, onBa
         </div>
       </div>
 
-      <div className="mt-auto flex flex-col items-center gap-4 pt-8">
+      <div className="flex-shrink-0 flex flex-col items-center gap-2 pt-6">
         <button
           onClick={onVisualize}
           className="w-full max-w-xs px-8 py-3 bg-sky-600 text-white font-semibold rounded-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75 transition-transform transform hover:scale-105"

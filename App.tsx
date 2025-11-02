@@ -162,23 +162,30 @@ const App: React.FC = () => {
   };
   
   const mainContainerClasses = "flex flex-col transition-all duration-300";
+  const isPanelHiddenForAnimation = animationState === 'diving' || animationState === 'exploding' || animationState === 'compressing' || animationState === 'imploding';
 
 
   return (
     <div 
-      className="h-full w-full flex flex-col font-gruppo text-slate-200 overflow-hidden"
+      className="h-full w-full flex items-center justify-center font-gruppo text-slate-200 overflow-hidden p-2 sm:p-4"
     >
       <div className={`fixed inset-0 bg-black z-50 transition-opacity duration-500 ${animationState === 'exploding' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
       <Starfield animationState={animationState} />
-      <div className="w-full max-w-4xl mx-auto flex flex-col flex-grow relative z-10 min-h-0 p-4 sm:p-6 lg:p-8 mt-auto mb-16">
+      <div className={`flex flex-col relative z-10 transition-all duration-500 ${
+        step === 0
+          ? 'w-full h-full justify-between items-center py-12 sm:py-20'
+          : 'w-full max-w-5xl h-full sm:h-[95vh] sm:max-h-[900px] p-4 sm:p-6 lg:p-8 bg-slate-900/50 rounded-lg border border-slate-700/50 backdrop-blur-sm'
+      } ${
+        isPanelHiddenForAnimation ? 'opacity-0' : 'opacity-100'
+      }`}>
         {step === 0 && (
-          <header className="text-center mb-8 flex-shrink-0 pt-8 animate-fade-in">
+          <header className="text-center flex-shrink-0 animate-fade-in">
             <h1 className="text-3xl sm:text-4xl font-bold text-cyan-200 tracking-widest uppercase">ML Compression Visualizer</h1>
             <p className="text-slate-400 mt-2 text-lg">Interactively explore the impact of model and data optimization.</p>
           </header>
         )}
         
-        <main key={`${step}-${visualizationMode}`} className={`${mainContainerClasses} flex-grow min-h-0 ${step > 0 ? 'animate-fade-in' : ''} transition-opacity duration-[2000ms] ${animationState === 'compressing' ? 'opacity-0' : 'opacity-100'}`}>
+        <main key={`${step}-${visualizationMode}`} className={`${mainContainerClasses} ${step > 0 ? 'flex-grow min-h-0 animate-fade-in' : ''}`}>
           {renderStep()}
         </main>
       </div>

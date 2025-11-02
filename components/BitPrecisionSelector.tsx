@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface BitOption {
@@ -35,7 +36,7 @@ const BitPrecisionSelector: React.FC<BitPrecisionSelectorProps> = ({ options, va
             }`}
           >
             {/* The bit number is large and bold for emphasis. */}
-            <span className="block text-4xl font-bold">{option.value}</span>
+            <span className="block text-3xl sm:text-4xl font-bold">{option.value}</span>
             {/* The type (Float/Integer) is smaller and acts as a sub-label. */}
             <span className="block text-xs uppercase tracking-wider text-slate-400">{typeLabel}</span>
           </button>

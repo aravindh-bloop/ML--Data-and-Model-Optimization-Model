@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface WelcomeStepProps {
@@ -8,7 +9,7 @@ interface WelcomeStepProps {
 const WelcomeStep: React.FC<WelcomeStepProps> = ({ onDive, animationState }) => {
   const isAnimating = animationState !== 'none';
   return (
-    <div className="flex flex-col items-center justify-end h-full text-center pb-24">
+    <div className="flex flex-col items-center justify-center text-center">
       <button
         onClick={onDive}
         disabled={isAnimating}

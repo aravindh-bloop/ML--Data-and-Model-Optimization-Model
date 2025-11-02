@@ -1,5 +1,5 @@
 {
-  "name": "Copy of Copy of ML Model Compression Visualizer",
+  "name": "ML Model/Data Compression and Visualizer",
   "description": "A web application that interactively visualizes the effects of different compression techniques on machine learning models, providing before-and-after comparisons and AI-powered analysis.",
   "requestFramePermissions": []
 }
