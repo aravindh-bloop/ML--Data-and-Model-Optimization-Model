@@ -174,7 +174,7 @@ const App: React.FC = () => {
       <div className={`flex flex-col relative z-10 transition-all duration-500 ${
         step === 0
           ? 'w-full h-full justify-between items-center py-12 sm:py-20'
-          : 'w-full max-w-5xl h-full sm:h-[95vh] sm:max-h-[900px] p-4 sm:p-6 lg:p-8 bg-slate-900/50 rounded-lg border border-slate-700/50 backdrop-blur-sm'
+          : 'w-full max-w-5xl h-full sm:h-[95vh] sm:max-h-[900px] p-4 sm:p-6 lg:p-8'
       } ${
         isPanelHiddenForAnimation ? 'opacity-0' : 'opacity-100'
       }`}>
@@ -185,7 +185,7 @@ const App: React.FC = () => {
           </header>
         )}
         
-        <main key={`${step}-${visualizationMode}`} className={`${mainContainerClasses} ${step > 0 ? 'flex-grow min-h-0 animate-fade-in' : ''}`}>
+        <main key={`${step}-${visualizationMode}`} className={`${mainContainerClasses} ${step > 0 ? 'flex-grow min-h-0 animate-fade-in' : 'flex items-center justify-center'}`}>
           {renderStep()}
         </main>
       </div>
