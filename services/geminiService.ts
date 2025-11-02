@@ -22,7 +22,7 @@ export const generateCompressionAnalysis = async (
     You are analyzing the compression of an ML model.
 
     **Original Model Details:**
-    - Name: ${model.name}
+    - Name: ${model.name} (${model.description})
     - Original Size: ${model.sizeMB.toFixed(1)} MB
     - Original Parameters: ${model.parametersMillion.toFixed(1)} Million
     - Original Accuracy: ${model.accuracy}%
@@ -39,7 +39,7 @@ export const generateCompressionAnalysis = async (
 
     **Your Task:**
     Based on the provided information, generate a concise analysis for a technical audience. The output must be in two parts, separated by a newline.
-    1.  **Simulated New Accuracy:** On the first line, provide a single, realistic number for the new accuracy after compression. For example: "90.5". Do not add any other text or symbols on this line. The accuracy drop should be plausible given the model and compression settings.
+    1.  **Simulated New Accuracy:** On the first line, provide a single, realistic number for the new accuracy after compression. For example: "90.5". Do not add any other text or symbols on this line. The accuracy drop should be plausible. For example, aggressive pruning on a complex model like BERT might cause a larger drop than 8-bit quantization on a robust model like ResNet-50. Consider the technique's harshness and the model's architecture.
     2.  **Analysis Summary:** On the following lines, provide a summary (2-4 sentences) explaining the trade-offs of this specific compression configuration on this model type. Explain why the accuracy might have changed and what the benefits are (e.g., reduced latency, smaller footprint). Mention potential risks or drawbacks.
 
     **Example Output:**
@@ -96,7 +96,7 @@ export const generateDataCompressionAnalysis = async (
     You are analyzing the compression of a dataset.
 
     **Original Dataset Details:**
-    - Name: ${dataset.name}
+    - Name: ${dataset.name} (${dataset.description})
     - Original Size: ${dataset.sizeMB.toFixed(2)} MB
     - Original Features: ${dataset.features}
     - Samples: ${dataset.samples}
@@ -113,8 +113,8 @@ export const generateDataCompressionAnalysis = async (
 
     **Your Task:**
     Based on the provided information, generate a concise analysis for a technical audience. The output must be in two parts, separated by a newline.
-    1.  **Simulated Information Loss:** On the first line, provide a single, realistic number for the percentage of information loss (e.g., for PCA, this is 100 minus the explained variance). For sampling, it's more abstract, but estimate a plausible value. For example: "5.0". Do not add any other text or symbols on this line.
-    2.  **Analysis Summary:** On the following lines, provide a summary (2-4 sentences) explaining the trade-offs of this specific data compression. Explain what the reduction in dimensionality or sample size means for potential model training (e.g., faster training, reduced risk of overfitting) and what the drawbacks are (e.g., loss of nuanced information, potential for biased sampling).
+    1.  **Simulated Information Loss:** On the first line, provide a single, realistic number for the percentage of information loss. For example: "5.0". Do not add any other text or symbols on this line. For PCA, information loss is 100 - explained_variance. For sampling, estimate a plausible value representing potential loss of minority class representation or outliers.
+    2.  **Analysis Summary:** On the following lines, provide a summary (2-4 sentences) explaining the trade-offs of this specific data compression. Explain what the reduction means for potential model training (e.g., faster training, reduced overfitting) and what the drawbacks are (e.g., loss of nuance, potential bias). The impact of losing features in a dataset like 'Wine Quality' with many correlated features might be less severe than in a dataset with orthogonal features.
 
     **Example Output:**
     5.0

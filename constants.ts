@@ -74,6 +74,7 @@ export const DATASETS: MLDataset[] = [
     sizeMB: 0.1,
     features: 4,
     samples: 150,
+    intrinsicDimensionality: 0.4, // Low complexity, highly separable
   },
   {
     id: 'wine_quality',
@@ -82,6 +83,7 @@ export const DATASETS: MLDataset[] = [
     sizeMB: 0.5,
     features: 11,
     samples: 4898,
+    intrinsicDimensionality: 0.7, // Medium complexity, correlated features
   },
   {
     id: 'mnist_digits',
@@ -90,6 +92,7 @@ export const DATASETS: MLDataset[] = [
     sizeMB: 50,
     features: 784, // 28x28 pixels
     samples: 60000,
+    intrinsicDimensionality: 0.9, // High complexity, many features needed
   },
 ];
 

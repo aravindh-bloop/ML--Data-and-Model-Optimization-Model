@@ -3,8 +3,11 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { MLModel, CompressionTechnique, CompressionConfig, CompressionResult, MLDataset, DataCompressionTechnique, DataCompressionConfig, DataCompressionResult } from './types';
 import WelcomeStep from './components/WelcomeStep';
 import ModeSelectionStep from './components/ModeSelectionStep';
+import SourceSelectionStep from './components/SourceSelectionStep';
 import ModelSelectionStep from './components/ModelSelectionStep';
 import DatasetSelectionStep from './components/DatasetSelectionStep';
+import UploadModelStep from './components/UploadModelStep';
+import UploadDatasetStep from './components/UploadDatasetStep';
 import TechniqueStep from './components/TechniqueStep';
 import DataTechniqueStep from './components/DataTechniqueStep';
 import ConfigurationStep from './components/ConfigurationStep';
@@ -17,6 +20,7 @@ const App: React.FC = () => {
   const [step, setStep] = useState(0);
   const [animationState, setAnimationState] = useState<'none' | 'diving' | 'exploding' | 'compressing' | 'imploding'>('none');
   const [visualizationMode, setVisualizationMode] = useState<'model' | 'data' | null>(null);
+  const [dataSource, setDataSource] = useState<'predefined' | 'upload' | null>(null);
   
   // Model workflow state
   const [selectedModel, setSelectedModel] = useState<MLModel | null>(null);
@@ -30,7 +34,7 @@ const App: React.FC = () => {
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const totalSteps = 5; // Welcome, Mode, Select, Technique, Configure, Results
+  const totalSteps = 6; // Welcome, Mode, Source, Select/Upload, Technique, Configure, Results
 
   const handleNext = useCallback(() => {
     setStep((prevStep) => Math.min(prevStep + 1, totalSteps));
@@ -43,6 +47,7 @@ const App: React.FC = () => {
   const handleStartOver = useCallback(() => {
     setStep(1); // Go back to mode selection
     setVisualizationMode(null);
+    setDataSource(null);
     setSelectedModel(null);
     setSelectedTechnique(null);
     setModelConfig({});
@@ -54,8 +59,13 @@ const App: React.FC = () => {
 
   const handleSelectMode = useCallback((mode: 'model' | 'data') => {
     setVisualizationMode(mode);
-    setStep(2);
+    setStep(2); // Go to Source Selection
   }, []);
+
+  const handleSelectSource = useCallback((source: 'predefined' | 'upload') => {
+    setDataSource(source);
+    handleNext();
+  }, [handleNext]);
 
   const handleDive = useCallback(() => {
     setAnimationState('diving');
@@ -72,7 +82,7 @@ const App: React.FC = () => {
   
   const handleVisualize = useCallback(() => {
     setAnimationState('compressing');
-    setStep(5); // Go to results
+    setStep(6); // Go to results
   }, []);
   
   const handleResultsReady = useCallback(() => {
@@ -103,14 +113,26 @@ const App: React.FC = () => {
       case 1:
         return <ModeSelectionStep onSelectMode={handleSelectMode} />;
       case 2:
-        if (visualizationMode === 'model') {
-          return <ModelSelectionStep onNext={handleNext} onSelectModel={setSelectedModel} selectedModel={selectedModel} onBack={() => setStep(1)} />;
+        return <SourceSelectionStep onSelectSource={handleSelectSource} onBack={() => setStep(1)} />;
+      case 3:
+        if (dataSource === 'predefined') {
+          if (visualizationMode === 'model') {
+            return <ModelSelectionStep onNext={handleNext} onSelectModel={setSelectedModel} selectedModel={selectedModel} onBack={() => setStep(2)} />;
+          }
+          if (visualizationMode === 'data') {
+            return <DatasetSelectionStep onNext={handleNext} onSelectDataset={setSelectedDataset} selectedDataset={selectedDataset} onBack={() => setStep(2)} />;
+          }
         }
-        if (visualizationMode === 'data') {
-          return <DatasetSelectionStep onNext={handleNext} onSelectDataset={setSelectedDataset} selectedDataset={selectedDataset} onBack={() => setStep(1)} />;
+        if (dataSource === 'upload') {
+          if (visualizationMode === 'model') {
+            return <UploadModelStep onNext={handleNext} onUploadModel={setSelectedModel} onBack={() => setStep(2)} />;
+          }
+          if (visualizationMode === 'data') {
+            return <UploadDatasetStep onNext={handleNext} onUploadDataset={setSelectedDataset} onBack={() => setStep(2)} />;
+          }
         }
         return null;
-      case 3:
+      case 4:
         if (visualizationMode === 'model') {
           return <TechniqueStep onNext={handleNext} onBack={handleBack} onSelectTechnique={setSelectedTechnique} selectedTechnique={selectedTechnique} />;
         }
@@ -118,7 +140,7 @@ const App: React.FC = () => {
           return <DataTechniqueStep onNext={handleNext} onBack={handleBack} onSelectTechnique={setSelectedDataTechnique} selectedTechnique={selectedDataTechnique} />;
         }
         return null;
-      case 4:
+      case 5:
         if (visualizationMode === 'model' && selectedTechnique) {
           return <ConfigurationStep onVisualize={handleVisualize} onBack={handleBack} selectedTechnique={selectedTechnique} config={modelConfig} setConfig={setModelConfig} />;
         }
@@ -126,7 +148,7 @@ const App: React.FC = () => {
           return <DataConfigurationStep onVisualize={handleVisualize} onBack={handleBack} selectedTechnique={selectedDataTechnique} config={dataConfig} setConfig={setDataConfig} />;
         }
         return null;
-      case 5:
+      case 6:
         if (visualizationMode === 'model' && selectedModel && selectedTechnique) {
           return <ResultsStep model={selectedModel} technique={selectedTechnique} config={modelConfig} onStartOver={handleStartOver} onResultsReady={handleResultsReady} isTransitioning={isTransitioning} />;
         }

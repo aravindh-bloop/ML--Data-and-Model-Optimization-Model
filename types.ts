@@ -9,7 +9,7 @@ export interface MLModel {
 }
 
 export interface CompressionParameter {
-  id: string;
+  id:string;
   name: string;
   type: 'slider' | 'select';
   min?: number;
@@ -48,6 +48,7 @@ export interface MLDataset {
   sizeMB: number;
   features: number;
   samples: number;
+  intrinsicDimensionality: number; // Represents data complexity for better simulation
 }
 
 export interface DataCompressionTechnique {

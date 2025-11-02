@@ -42,7 +42,7 @@ const DatasetSelectionStep: React.FC<DatasetSelectionStepProps> = ({ onNext, onB
           onClick={onBack}
           className="px-6 py-2 bg-slate-600 text-slate-100 font-semibold rounded-lg hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400"
         >
-          Back to Mode
+          Back
         </button>
         <button
           onClick={onNext}
